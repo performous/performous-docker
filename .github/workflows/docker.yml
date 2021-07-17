@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Ubuntu 18.04 Base Image
-        runs:
+        run:
           using: 'docker'
           image: 'Dockerfile.ubuntu18.04'
           
@@ -29,6 +29,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Ubuntu 20.04 Base Image
-        runs:
+        run:
           using: 'docker'
           image: 'Dockerfile.ubuntu20.04'
