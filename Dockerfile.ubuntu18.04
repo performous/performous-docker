@@ -1,5 +1,5 @@
 ## Use the official Ubuntu 18.04 Image from Dockerhub
-FROM ubuntu:18.04
+FROM docker.io/library/ubuntu:18.04
 
 ## Set up environment variables so the tzdata install doesn't
 ## hang on asking for user input for configuration

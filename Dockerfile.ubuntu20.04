@@ -1,5 +1,5 @@
 ## Use the official Ubuntu 20.04 Image from Dockerhub
-FROM ubuntu:20.04
+FROM docker.io/library/ubuntu:20.04
 
 ## Set up environment variables so the tzdata install doesn't
 ## hang on asking for user input for configuration
