@@ -15,7 +15,7 @@ on:
 
 jobs:
   # Separate builds for each container
-  ubuntu-18.04:
+  ubuntu18.04:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,7 +28,7 @@ jobs:
           file: ./Dockerfile.ubuntu18.04
           push: false
           
-  ubuntu-20.04:
+  ubuntu20.04:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
