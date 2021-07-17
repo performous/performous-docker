@@ -18,17 +18,26 @@ jobs:
   ubuntu-18.04:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Build the Ubuntu 18.04 Base Image
-  runs:
-    using: 'docker'
-    image: 'Dockerfile.ubuntu18.04'
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Build Ubuntu 18.04 Container
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu18.04
+          push: false
           
   ubuntu-20.04:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build the Ubuntu 20.04 Base Image
-  runs:
-    using: 'docker'
-    image: 'Dockerfile.ubuntu20.04'
+        name: Build the Ubuntu 20.04 Base Image
+
+      - name: Build Ubuntu 20.04 Container
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu20.04
+          push: false
+
