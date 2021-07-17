@@ -33,9 +33,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu18.04
           push: true
-          tags: 
-            - ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu18.04
-            - performous-build:ubuntu18.04
+          tags: performous-build:ubuntu18.04
           
   ubuntu_20-04:
     runs-on: ubuntu-latest
@@ -55,6 +53,4 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu20.04
           push: true
-          tags:
-            - ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu20.04
-            - performous-build:ubuntu20.04
+          tags: performous-build:ubuntu20.04
