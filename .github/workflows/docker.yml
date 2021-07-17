@@ -31,8 +31,8 @@ jobs:
   ubuntu_20-04:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        name: Build the Ubuntu 20.04 Base Image
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Build Ubuntu 20.04 Container
         uses: docker/build-push-action@v2
