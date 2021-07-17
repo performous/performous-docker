@@ -1,0 +1,19 @@
+## Use the official Ubuntu 20.04 Image from Dockerhub
+FROM ubuntu:20.04
+
+## Set up environment variables so the tzdata install doesn't
+## hang on asking for user input for configuration
+ARG DEBIAN_FRONTEND="noninteractive"
+ARG TZ="America/New_York"
+
+## Install the deps and create the build directory
+RUN apt-get update &&\
+    apt-get install -y git cmake build-essential gettext help2man\
+      libopenblas-dev libfftw3-dev libicu-dev libepoxy-dev libsdl2-dev\
+      libfreetype6-dev libpango1.0-dev librsvg2-dev libxml++2.6-dev\
+      libavcodec-dev libavformat-dev libswscale-dev libjpeg-dev\
+      portaudio19-dev libglm-dev libboost-all-dev libssl-dev libcpprest-dev\
+      libportmidi-dev libopencv-dev python-is-python3 &&\
+    mkdir /root/performous
+
+WORKDIR /root/performous
