@@ -12,7 +12,9 @@ RUN apt-get update &&\
       libopenblas-dev libfftw3-dev libicu-dev libepoxy-dev libsdl2-dev\
       libfreetype6-dev libpango1.0-dev librsvg2-dev libxml++2.6-dev\
       libavcodec-dev libavformat-dev libswscale-dev libjpeg-dev\
-      portaudio19-dev libglm-dev libboost-all-dev libssl-dev libcpprest-dev\
+      portaudio19-dev libglm-dev libboost-filesystem-dev\
+      libboost-iostreams-dev libboost-locale-dev libboost-system-dev\
+      libboost-program-options-dev libssl-dev libcpprest-dev\
       libportmidi-dev libopencv-dev python-is-python3 &&\
     apt-get clean &&\
     mkdir /root/performous
