@@ -8,7 +8,7 @@ ARG TZ="America/New_York"
 
 ## Install the deps and create the build directory
 RUN apt-get update &&\
-    apt-get install -y git cmake build-essential gettext help2man\
+    apt-get install -y git cmake clang-9 gcc-8 g++-8 gettext help2man\
       libopenblas-dev libfftw3-dev libicu-dev libepoxy-dev libsdl2-dev\
       libfreetype6-dev libpango1.0-dev librsvg2-dev libxml++2.6-dev\
       libavcodec-dev libavformat-dev libswscale-dev libjpeg-dev\
@@ -18,5 +18,13 @@ RUN apt-get update &&\
       libopencv-dev python &&\
     apt-get clean &&\
     mkdir /root/performous
+
+## Set the default compiler that cmake will use, otherwise it throws an error.
+ENV CC=gcc-8
+ENV CXX=g++-8
+
+## Uncomment these to use clang instead
+# ENV CC=clang-9
+# ENV CXX=clang++-9
 
 WORKDIR /root/performous
