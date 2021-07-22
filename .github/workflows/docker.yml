@@ -1,20 +1,18 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Build Containers
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  ## Triggers the workflow on push or pull request events for everything
+  ## TO DO: Don't do pushed to dockerhub when not on master
   push:
     branches: [ '**' ]
   pull_request:
     branches: [ '**' ]
 
-  # Allows you to run this workflow manually from the Actions tab
+  ## Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  # Separate builds for each container
+  ## Separate builds for each container
   ubuntu_18-04:
     runs-on: ubuntu-latest
     steps:
