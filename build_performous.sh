@@ -17,7 +17,6 @@ cd ..
 
 ## Meson build
 mv build build.make
-apt install -y libaubio-dev
 meson build
 cd build
 meson compile
