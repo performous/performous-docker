@@ -1,0 +1,14 @@
+## Use the official Gentoo Stage 3 Image from Dockerhub
+FROM docker.io/gentoo/stage3
+
+## Install the deps and create the working directory
+RUN emerge --sync &&\
+    emerge boost dev-vcs/git cmake help2man glew libsdl2 ffmpeg\
+           portaudio libxmlpp opencv portmidi aubio dev-python/pip &&\
+    pip3 install meson ninja &&\
+    mkdir /root/performous
+
+## Copy in the build script to make things easy
+COPY build_performous.sh /root/performous/build_performous.sh
+
+WORKDIR /root/performous
