@@ -10,7 +10,7 @@ RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rele
         pango-devel jsoncpp-devel glm-devel openblas-devel fftw-devel cpprest-devel\
         aubio-devel python3-pip &&\
     pip3 install meson ninja &&\
-    dnf clean &&\
+    dnf clean all &&\
     mkdir /root/performous
 
 ## Copy in the build script to make things easy
