@@ -54,3 +54,63 @@ jobs:
           file: ./Dockerfile.ubuntu20.04
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu20.04
+
+  fedora_32:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Fedora 32 Container
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.fedora32
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:fedora32
+
+  fedora_33:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Fedora 33 Container
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.fedora33
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:fedora33
+
+  fedora_34:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Fedora 34 Container
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.fedora34
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:fedora34
