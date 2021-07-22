@@ -12,7 +12,7 @@ fi
 git submodule update --init --recursive
 
 ## Set up some special cmake flags for fedora
-if [ ${ID} == 'fedora' ]; then
+if [ "${ID}" == "fedora" ]; then
   EXTRA_CMAKE_ARGS='-DUSE_BOOST_REGEX=1'
 fi
 
