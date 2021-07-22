@@ -19,5 +19,5 @@ From there, you can [follow the build instructions](https://github.com/performou
 
 `build_performous.sh` is included in the containers mostly for testing purposes. By default the script will build the master branch of [the performous repo](https://github.com/performous/performous). If run with a number as an argument, it will build the pull request associated with that number. This can be added as argument to the `docker run` to run a build when the container is spawned:  
 ```
-docker run -it performous-docker-build:ubuntu20.04 ./build_performous.sh 626
+docker run performous-docker-build:ubuntu20.04 ./build_performous.sh 626
 ```
