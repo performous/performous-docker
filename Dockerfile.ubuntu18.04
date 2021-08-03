@@ -31,6 +31,9 @@ ENV CXX=g++-8
 # ENV CC=clang-9
 # ENV CXX=clang++-9
 
+## Add the meson installation to the path
+ENV PATH=/root/.local/bin:$PATH
+
 ## Copy in the build script to make things easy
 COPY build_performous.sh /root/performous/build_performous.sh
 
