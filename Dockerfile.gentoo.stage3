@@ -2,11 +2,18 @@
 FROM docker.io/gentoo/stage3
 
 ## Install the deps and create the working directory
-RUN emerge --sync &&\
-    emerge boost dev-vcs/git cmake help2man glew libsdl2 ffmpeg\
-           portaudio libxmlpp opencv portmidi aubio dev-python/pip &&\
-    pip3 install meson ninja &&\
+RUN emerge --sync
+RUN emerge -j$(nproc --all) -l100 --autounmask-continue boost dev-vcs/git cmake\
+           help2man libsdl2 ffmpeg portaudio libxmlpp\
+           opencv portmidi openblas fftw dev-libs/icu freetype x11-libs/cairo x11-libs/gdk-pixbuf\
+           aubio dev-python/pip
+#RUN emerge -j$(nproc --all) -l100 --autounmask-continue media-libs/libepoxy
+RUN pip3 install --user meson ninja &&\
+    rm -rf /var/tmp/portage/* /var/cache/distfiles/* /var/cache/binpkgs/* &&\
     mkdir /root/performous
+
+## Add the meson and ninja installation to the path
+ENV PATH=/root/.local/bin:$PATH
 
 ## Copy in the build script to make things easy
 COPY build_performous.sh /root/performous/build_performous.sh
