@@ -1,0 +1,16 @@
+## Use the official Arch Image from Dockerhub
+FROM docker.io/library/archlinux:latest
+
+## Install the deps and create the build directory
+## gettext and icu are installed by default
+RUN pacman -Syy --noconfirm git base-devel cmake help2man openblas fftw\
+    libepoxy sdl2 freetype2 pango librsvg libxml++2.6 ffmpeg libjpeg-turbo\
+    portaudio glm boost boost-libs aubio opencv portmidi python-pip &&\
+    pip3 install meson ninja &&\
+    pacman -Scc --noconfirm &&\
+    mkdir /root/performous
+
+## Copy in the build script to make things easy
+COPY build_performous.sh /root/performous/build_performous.sh
+
+WORKDIR /root/performous
