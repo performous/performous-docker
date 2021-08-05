@@ -2,12 +2,54 @@
 ## Pull in /etc/os-release so we can see what we're running on
 . /etc/os-release
 
+## Function to print the help message
+usage() {
+  echo "Usage: ${0} -a (build with all build systems)"
+  echo ""
+  echo "Optional Arguments:"
+  echo "  -b <Git Branch>: Build the specified git branch, tag, or sha"
+  echo "  -p <Pull Request #>: Build the specified Github Pull Request number"
+  echo "  -m : Use Meson to build"
+  echo "  -c : Use Cmake to build"
+  echo "  -g : Generate Packages"
+  echo "  -h : Show this help message"
+  exit 1
+}
+
+## Set up getopts
+while getopts "ab:p:mcgh" OPTION; do
+  case ${OPTION} in
+    "a")
+      BUILD_MESON=true
+      BUILD_CMAKE=true;;
+    "b")
+      GIT_BRANCH=${OPTARG};;
+    "p")
+      PULL_REQUEST=${OPTARG};;
+    "m")
+      BUILD_MESON=true;;
+    "c")
+      BUILD_CMAKE=true;;
+    "g")
+      GENERATE_PACKAGES=true;;
+    "h")
+      HELP=true;;
+  esac
+done
+
+if ([ -z ${BUILD_MESON} ] && [ -z ${BUILD_CMAKE} ]) || [ ${HELP} ]; then
+  usage
+  exit 2
+fi
+
 ## All the git stuff
 git clone git://github.com/performous/performous.git
 cd performous
-if [ ${1} ]; then
-  git fetch origin pull/${1}/head:pr
+if [ ${PULL_REQUEST} ]; then
+  git fetch origin pull/${PULL_REQUEST}/head:pr
   git checkout pr
+elif [ ${GIT_BRANCH} ]; then
+  git checkout ${GIT_BRANCH}
 fi
 git submodule update --init --recursive
 
@@ -16,15 +58,32 @@ if [ "${ID}" == "fedora" ]; then
   EXTRA_CMAKE_ARGS='-DUSE_BOOST_REGEX=1'
 fi
 
-## Standard build
-mkdir build.make
-cd build.make
-cmake ${EXTRA_CMAKE_ARGS} ..
-CPU_CORES=$(nproc --all)
-make -j${CPU_CORES}
-cd ..
+## Figure out what type of packages we need to generate
+case ${ID} in
+  'fedora')
+    PACKAGE_TYPE='RPM';;
+  'ubuntu')
+    PACKAGE_TYPE='DEB';;
+  *)
+    PACKAGE_TYPE='TAR';;
+esac
+
+## Cmake build
+if [ ${BUILD_CMAKE} ]; then
+  mkdir build.cmake
+  cd build.cmake
+  cmake ${EXTRA_CMAKE_ARGS} -DENABLE_WEBSERVER=ON -DCMAKE_VERBOSE_MAKEFILE=1 -DENABLE_WEBCAM=ON ..
+  CPU_CORES=$(nproc --all)
+  make -j${CPU_CORES}
+  if [ ${GENERATE_PACKAGES} ]; then
+    cpack -G ${PACKAGE_TYPE}
+  fi
+  cd ..
+fi
 
 ## Meson build
-meson build
-cd build
-meson compile
+if [ ${BUILD_MESON} ]; then
+  meson setup build.meson -Dusewebcam=true -Dusemididrum=true -Dusewebserver=true -Dstoponwarning=true
+  meson compile -C build.meson
+  cd ..
+fi
