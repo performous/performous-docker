@@ -2,6 +2,9 @@
 ## Pull in /etc/os-release so we can see what we're running on
 . /etc/os-release
 
+## Default Vars
+GIT_REPOSITORY='git://github.com/performous/performous.git'
+
 ## Function to print the help message
 usage() {
   echo "Usage: ${0} -a (build with all build systems)"
@@ -12,6 +15,7 @@ usage() {
   echo "  -m : Use Meson to build"
   echo "  -c : Use Cmake to build"
   echo "  -g : Generate Packages"
+  echo "  -r <Repository URL>: Git repository to pull from"
   echo "  -h : Show this help message"
   exit 1
 }
@@ -32,6 +36,8 @@ while getopts "ab:p:mcgh" OPTION; do
       BUILD_CMAKE=true;;
     "g")
       GENERATE_PACKAGES=true;;
+    "r")
+      GIT_REPOSITORY=${OPTARG};;
     "h")
       HELP=true;;
   esac
@@ -43,7 +49,7 @@ if ([ -z ${BUILD_MESON} ] && [ -z ${BUILD_CMAKE} ]) || [ ${HELP} ]; then
 fi
 
 ## All the git stuff
-git clone git://github.com/performous/performous.git
+git clone ${GIT_REPOSITORY}
 cd performous
 if [ ${PULL_REQUEST} ]; then
   git fetch origin pull/${PULL_REQUEST}/head:pr
