@@ -21,7 +21,7 @@ usage() {
 }
 
 ## Set up getopts
-while getopts "ab:p:mcgh" OPTION; do
+while getopts "ab:p:mcgr:h" OPTION; do
   case ${OPTION} in
     "a")
       BUILD_MESON=true
