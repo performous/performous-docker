@@ -7,10 +7,12 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ARG TZ="America/New_York"
 
 ## Install the deps and create the build directory
-RUN apt-get update && apt-get install -y gpg &&\
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null &&\
-    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ bionic main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null &&\
+RUN apt-get update && apt-get install -y wget gpg &&\
+    wget -nc https://apt.kitware.com/keys/kitware-archive-latest.asc &&\
+    apt-key add kitware-archive-latest.asc &&\
+    echo 'deb https://apt.kitware.com/ubuntu/ bionic main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null &&\
     apt-get update &&\
+    rm kitware-archive-latest.asc &&\
     apt-get install -y --no-install-recommends git cmake clang-9 gcc-8 g++-8\
       gettext help2man libopenblas-dev libfftw3-dev libicu-dev libepoxy-dev\
       libsdl2-dev libfreetype6-dev libpango1.0-dev librsvg2-dev libxml++2.6-dev\
