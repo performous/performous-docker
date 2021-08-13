@@ -7,7 +7,10 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ARG TZ="America/New_York"
 
 ## Install the deps and create the build directory
-RUN apt-get update &&\
+RUN apt-get update && apt-get install -y software-properties-common &&\
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' &&\
+    apt-get purge -y software-properties-common &&\
+    apt-get update &&\
     apt-get install -y --no-install-recommends git cmake clang-9 gcc-8 g++-8\
       gettext help2man libopenblas-dev libfftw3-dev libicu-dev libepoxy-dev\
       libsdl2-dev libfreetype6-dev libpango1.0-dev librsvg2-dev libxml++2.6-dev\
