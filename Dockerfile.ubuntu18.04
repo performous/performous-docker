@@ -16,7 +16,7 @@ RUN apt-get update &&\
       libboost-iostreams-dev libboost-locale-dev libboost-system-dev\
       libboost-program-options-dev libssl-dev libcpprest-dev libportmidi-dev\
       libopencv-dev libaubio-dev python3 python3-pip python3-setuptools\
-      python3-wheel ninja-build &&\
+      python3-wheel ninja-build file &&\
     pip3 install --user meson &&\
     apt-get clean &&\
     ## Set python to python3
