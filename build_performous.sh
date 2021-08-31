@@ -89,6 +89,10 @@ fi
 
 ## Meson build
 if [ ${BUILD_MESON} ]; then
+  ## Pull down the ced stuff from google now that some patches have been merged
+  git clone --depth 1 https://github.com/google/compact_enc_det.git 3rdparty/ced
+  git -C 3rdparty/ced checkout 37529e6
+
   meson setup build.meson -Dusewebcam=true -Dusemididrum=true -Dusewebserver=true -Dstoponwarning=true
   meson compile -C build.meson
   cd ..
