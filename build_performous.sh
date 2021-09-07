@@ -16,12 +16,13 @@ usage() {
   echo "  -c : Use Cmake to build"
   echo "  -g : Generate Packages"
   echo "  -r <Repository URL>: Git repository to pull from"
+  echo "  -R : Perform a 'Release' Cmake Build (Default is 'RelWithDebInfo')"
   echo "  -h : Show this help message"
   exit 1
 }
 
 ## Set up getopts
-while getopts "ab:p:mcgr:h" OPTION; do
+while getopts "ab:p:mcgr:Rh" OPTION; do
   case ${OPTION} in
     "a")
       BUILD_MESON=true
@@ -38,6 +39,8 @@ while getopts "ab:p:mcgr:h" OPTION; do
       GENERATE_PACKAGES=true;;
     "r")
       GIT_REPOSITORY=${OPTARG};;
+    "R")
+      RELEASE_BUILD=true;;
     "h")
       HELP=true;;
   esac
@@ -62,6 +65,10 @@ git submodule update --init --recursive
 ## Set up some special cmake flags for fedora
 if [ "${ID}" == "fedora" ]; then
   EXTRA_CMAKE_ARGS='-DUSE_BOOST_REGEX=1'
+fi
+
+if [ "${RELEASE_BUILD}" ]; then
+  EXTRA_CMAKE_ARGS="${EXTRA_CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release"
 fi
 
 ## Figure out what type of packages we need to generate
