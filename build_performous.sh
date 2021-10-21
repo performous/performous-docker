@@ -7,6 +7,8 @@ GIT_REPOSITORY='git://github.com/performous/performous.git'
 
 ## Function to print the help message
 usage() {
+  set +x
+  echo ""
   echo "Usage: ${0} -a (build with all build systems)"
   echo ""
   echo "Optional Arguments:"
