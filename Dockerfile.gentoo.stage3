@@ -3,10 +3,10 @@ FROM docker.io/gentoo/stage3
 
 ## Install the deps and create the working directory
 RUN emerge --sync
-RUN emerge -j$(nproc --all) -l100 --autounmask-continue boost dev-vcs/git cmake\
+RUN emerge -j$(nproc --all) -l100 --autounmask-continue virtual/libcrypt sys-libs/libxcrypt boost dev-vcs/git cmake\
            help2man libsdl2 ffmpeg portaudio libxmlpp\
            opencv portmidi openblas fftw dev-libs/icu freetype x11-libs/cairo x11-libs/gdk-pixbuf\
-           aubio dev-python/pip
+           aubio media-libs/libepoxy dev-python/pip
 #RUN emerge -j$(nproc --all) -l100 --autounmask-continue media-libs/libepoxy
 RUN pip3 install --user meson ninja &&\
     rm -rf /var/tmp/portage/* /var/cache/distfiles/* /var/cache/binpkgs/* &&\
