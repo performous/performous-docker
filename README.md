@@ -17,7 +17,27 @@ docker run -it performous-docker-build:ubuntu20.04
 From there, you can [follow the build instructions](https://github.com/performous/performous/wiki/Building-and-installing-from-source#downloading-and-installing-the-sources) to build performous.  
 
 
-`build_performous.sh` is included in the containers mostly for testing purposes. By default the script will build the master branch of [the performous repo](https://github.com/performous/performous). If run with a number as an argument, it will build the pull request associated with that number. This can be added as argument to the `docker run` to run a build when the container is spawned:  
+`build_performous.sh` is included in the containers for testing builds and creating OS packages.
 ```
-docker run performous-docker-build:ubuntu20.04 ./build_performous.sh 626
+Usage: ./build_performous.sh -a (build with all build systems)
+
+Optional Arguments:
+  -b <Git Branch>: Build the specified git branch, tag, or sha
+  -p <Pull Request #>: Build the specified Github Pull Request number
+  -m : Use Meson to build
+  -c : Use Cmake to build
+  -g : Generate Packages
+  -r <Repository URL>: Git repository to pull from
+  -R : Perform a 'Release' Cmake Build (Default is 'RelWithDebInfo')
+  -h : Show this help message
+```
+
+To build a pull request using just cmake:
+```
+docker run performous-docker-build:ubuntu20.04 ./build_performous.sh -c -p 626
+```
+
+One-Liner to generate packages and copy them to `/tmp` on the running system:
+```
+mkdir /tmp/performous-packages && docker run --rm --mount type=bind,source=/tmp/performous-packages,target=/performous/packages performous-docker-build:ubuntu20.04 /bin/bash -c './build_performous.sh -c -R -g && cp performous/build/*.deb /performous/packages'
 ```
