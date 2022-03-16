@@ -73,6 +73,26 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu20.04
 
+  ubuntu_22-04:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Ubuntu 22.04 Container
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu22.04
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu22.04
+
   fedora_32:
     runs-on: ubuntu-latest
     steps:

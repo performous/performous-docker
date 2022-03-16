@@ -3,7 +3,7 @@
 . /etc/os-release
 
 ## Default Vars
-GIT_REPOSITORY='git://github.com/performous/performous.git'
+GIT_REPOSITORY='https://github.com/performous/performous.git'
 
 ## Function to print the help message
 usage() {
