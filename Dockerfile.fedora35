@@ -1,5 +1,5 @@
-## Use the official Fedora 32 Image from Dockerhub
-FROM docker.io/library/fedora:32
+## Use the official Fedora 35 Image from Dockerhub
+FROM docker.io/library/fedora:35
 
 ## Install the deps and create the working directory
 ## Enable the RPM Fusion Free Repo
