@@ -31,7 +31,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu18.04-stock
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu18.04-stock
+          tags: performous/deps:ubuntu18.04-stock
 
   ubuntu_18-04:
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu18.04
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu18.04
+          tags: performous/deps:ubuntu18.04
           
   ubuntu_20-04:
     runs-on: ubuntu-latest
@@ -71,7 +71,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu20.04
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu20.04
+          tags: performous/deps:ubuntu20.04
 
   ubuntu_22-04:
     runs-on: ubuntu-latest
@@ -91,7 +91,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu22.04
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:ubuntu22.04
+          tags: performous/deps:ubuntu22.04
 
   fedora_33:
     runs-on: ubuntu-latest
@@ -111,7 +111,7 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora33
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:fedora33
+          tags: performous/deps:fedora33
 
   fedora_34:
     runs-on: ubuntu-latest
@@ -131,7 +131,7 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora34
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:fedora34
+          tags: performous/deps:fedora34
 
   fedora_35:
     runs-on: ubuntu-latest
@@ -151,4 +151,4 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora35
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/performous-build:fedora35
+          tags: performous/deps:fedora35
