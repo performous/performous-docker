@@ -26,6 +26,16 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build Ubuntu 18.04 Stock Container
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu18.04-stock
+          push: false
+          tags: performous/deps:ubuntu18.04-stock
+
+      - name: Build and Push Ubuntu 18.04 Stock Container
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -46,13 +56,24 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         
       - name: Build Ubuntu 18.04 Container
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu18.04
+          push: false
+          tags: performous/deps:ubuntu18.04
+
+      - name: Build and Push Ubuntu 18.04 Container
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile.ubuntu18.04
           push: true
           tags: performous/deps:ubuntu18.04
-          
+
+
   ubuntu_20-04:
     runs-on: ubuntu-latest
     steps:
@@ -66,6 +87,16 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build Ubuntu 20.04 Container
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu20.04
+          push: false
+          tags: performous/deps:ubuntu20.04
+
+      - name: Build and Push Ubuntu 20.04 Container
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -86,6 +117,16 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build Ubuntu 22.04 Container
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu22.04
+          push: false
+          tags: performous/deps:ubuntu22.04
+
+      - name: Build and Push Ubuntu 22.04 Container
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -106,6 +147,16 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build Fedora 33 Container
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.fedora33
+          push: false
+          tags: performous/deps:fedora33
+
+      - name: Build and Push Fedora 33 Container
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -126,6 +177,16 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build Fedora 34 Container
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.fedora34
+          push: false
+          tags: performous/deps:fedora34
+
+      - name: Build and Push Fedora 34 Container
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -146,6 +207,16 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build Fedora 32 Container
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.fedora35
+          push: false
+          tags: performous/deps:fedora35
+
+      - name: Build and Push Fedora 32 Container
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v2
         with:
           context: ./
