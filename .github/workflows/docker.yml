@@ -2,7 +2,6 @@ name: Build Containers
 
 on:
   ## Triggers the workflow on push or pull request events for everything
-  ## TO DO: Don't do pushed to dockerhub when not on master
   push:
     branches: [ '**' ]
   pull_request:
