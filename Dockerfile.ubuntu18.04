@@ -7,10 +7,11 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ARG TZ="America/New_York"
 
 ## Install the deps and create the build directory
-RUN apt-get update && apt-get install -y wget gpg &&\
+RUN apt-get update && apt-get install -y wget gpg software-properties-common &&\
     wget -nc https://apt.kitware.com/keys/kitware-archive-latest.asc &&\
     apt-key add kitware-archive-latest.asc &&\
     echo 'deb https://apt.kitware.com/ubuntu/ bionic main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null &&\
+    add-apt-repository -y ppa:git-core/ppa &&\
     apt-get update &&\
     rm kitware-archive-latest.asc &&\
     apt-get install -y --no-install-recommends git cmake clang-9 gcc-8 g++-8\
