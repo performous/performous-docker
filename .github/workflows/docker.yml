@@ -10,6 +10,10 @@ on:
   ## Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+  ## Run on a schedule to get monthly updates
+  schedule:
+    - cron: "* * 29 * *"
+
 jobs:
   ## Separate builds for each container
   ubuntu_18-04_stock:
