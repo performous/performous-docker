@@ -16,7 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  REPO_NAME: ${{ github.repository }}
+  REPO_NAME: ${{ github.repository_owner }}
 
 jobs:
   ## Separate builds for each container
