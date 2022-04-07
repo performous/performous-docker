@@ -1,3 +1,5 @@
+## You will need to make the repository you are pushing to Publicly Visible
+## to use the actions in the performous repo without modification
 name: Build Containers
 
 on:
