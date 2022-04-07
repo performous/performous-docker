@@ -40,7 +40,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu18.04-stock
           push: false
-          tags: performous/deps:ubuntu18.04-stock
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04-stock
 
       - name: Build and Push Ubuntu 18.04 Stock Container
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -49,7 +49,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu18.04-stock
           push: true
-          tags: performous/deps:ubuntu18.04-stock
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04-stock
 
   ubuntu_18-04:
     runs-on: ubuntu-latest
@@ -71,7 +71,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu18.04
           push: false
-          tags: performous/deps:ubuntu18.04
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04
 
       - name: Build and Push Ubuntu 18.04 Container
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -80,7 +80,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu18.04
           push: true
-          tags: performous/deps:ubuntu18.04
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04
 
 
   ubuntu_20-04:
@@ -103,7 +103,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu20.04
           push: false
-          tags: performous/deps:ubuntu20.04
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu20.04
 
       - name: Build and Push Ubuntu 20.04 Container
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -112,7 +112,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu20.04
           push: true
-          tags: performous/deps:ubuntu20.04
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu20.04
 
   ubuntu_22-04:
     runs-on: ubuntu-latest
@@ -134,7 +134,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu22.04
           push: false
-          tags: performous/deps:ubuntu22.04
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu22.04
 
       - name: Build and Push Ubuntu 22.04 Container
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -143,7 +143,7 @@ jobs:
           context: ./
           file: ./Dockerfile.ubuntu22.04
           push: true
-          tags: performous/deps:ubuntu22.04
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu22.04
 
   fedora_33:
     runs-on: ubuntu-latest
@@ -165,7 +165,7 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora33
           push: false
-          tags: performous/deps:fedora33
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora33
 
       - name: Build and Push Fedora 33 Container
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -174,7 +174,7 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora33
           push: true
-          tags: performous/deps:fedora33
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora33
 
   fedora_34:
     runs-on: ubuntu-latest
@@ -196,7 +196,7 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora34
           push: false
-          tags: performous/deps:fedora34
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora34
 
       - name: Build and Push Fedora 34 Container
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -205,7 +205,7 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora34
           push: true
-          tags: performous/deps:fedora34
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora34
 
   fedora_35:
     runs-on: ubuntu-latest
@@ -227,7 +227,7 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora35
           push: false
-          tags: performous/deps:fedora35
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora35
 
       - name: Build and Push Fedora 32 Container
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -236,4 +236,4 @@ jobs:
           context: ./
           file: ./Dockerfile.fedora35
           push: true
-          tags: performous/deps:fedora35
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora35
