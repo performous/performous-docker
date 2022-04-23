@@ -3,10 +3,14 @@ This repository contains Dockerfiles which will install all dependencies needed 
 These containers are to be used as `base images` to provide higher-level builds and packages and to produce artifacts for downstream consumption. These containers **do not** provide a running version of `Performous` or contain the project source in any usable form.  
 
 ## Building containers
-The build is a pretty standard `docker build`, just make sure you explicitly call out a `Dockerfile` with `-f Dockerfile.<distro.version>`:  
+The build is a pretty standard `docker build`, just make sure you explicitly call out a `Dockerfile` with `-f Dockerfile.<distro>` and supply the correct distro version as a `build-arg`:  
 ```sh
-docker build -t performous-docker-build:ubuntu20.04 -f Dockerfile.ubuntu20.04 .
+docker build -t performous-docker-build:ubuntu20.04 -f Dockerfile.ubuntu --build-arg OS_VERSION=20.04 .
 ```
+
+Currently supported distros are:
+- Ubuntu (18.04, 20.04, 22.04)
+- Fedora (33, 34, 35)
 
 ## Running the containers
 Once the `base-image` has been built, the container can be run interactively to build `Performous`:  
