@@ -3,56 +3,30 @@
 name: Build Containers
 
 on:
-  ## Triggers the workflow on push or pull request events for everything
   push:
-    branches: [ '**' ]
-  pull_request:
-    branches: [ '**' ]
+    branches:
+      - master
+      - '[0-9]+\.[0-9]+\.[0-9]+-rc[0-9]+'
+    tags:
+      - '[0-9]+\.[0-9]+\.[0-9]+'
+      - '[0-9]+\.[0-9]+\.[0-9]+-rc[0-9]+'
 
-  ## Allows you to run this workflow manually from the Actions tab
+  # On anything pull request related
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
   ## Run on a schedule to get monthly updates
   schedule:
-    - cron: "* * 29 * *"
+    - cron: "* * 28 * *"
 
 env:
   REGISTRY: ghcr.io
   REPO_NAME: ${{ github.repository_owner }}
 
 jobs:
-  ## Separate builds for each container
-  ubuntu_18-04_stock:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Login to the container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}                
-          username: ${{ env.REPO_NAME }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build Ubuntu 18.04 Stock Container
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.ubuntu18.04-stock
-          push: false
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04-stock
-
-      - name: Build and Push Ubuntu 18.04 Stock Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.ubuntu18.04-stock
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04-stock
-
+  # Only here for legacy reasons. For newer versions please use the Ubuntu job with the matrix.
   ubuntu_18-04:
     runs-on: ubuntu-latest
     steps:
@@ -60,182 +34,73 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login to the container registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}                
           username: ${{ env.REPO_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
         
-      - name: Build Ubuntu 18.04 Container
-        if: ${{ github.ref != 'refs/heads/master' }}
+      - name: Build and optional Push Ubuntu 18.04 Container
         uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile.ubuntu18.04
-          push: false
+          push: ${{ github.ref == 'refs/heads/master' }}
           tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04
 
-      - name: Build and Push Ubuntu 18.04 Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.ubuntu18.04
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04
-
-
-  ubuntu_20-04:
+  ubuntu:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - 20.04
+          - 22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Login to the container registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}                
           username: ${{ env.REPO_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Ubuntu 20.04 Container
-        if: ${{ github.ref != 'refs/heads/master' }}
+      - name: Build and optional Push Ubuntu ${{ matrix.os }} Container
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./Dockerfile.ubuntu20.04
-          push: false
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu20.04
-
-      - name: Build and Push Ubuntu 20.04 Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.ubuntu20.04
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu20.04
-
-  ubuntu_22-04:
+          file: ./Dockerfile.ubuntu
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu${{ matrix.os }}
+          build-args: OS_VERSION=${{ matrix.os }}
+  fedora:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - 33
+          - 34
+          - 35
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Login to the container registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}                
           username: ${{ env.REPO_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Ubuntu 22.04 Container
-        if: ${{ github.ref != 'refs/heads/master' }}
+      - name: Build and optional Push Fedora ${{ matrix.os }} Container
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./Dockerfile.ubuntu22.04
-          push: false
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu22.04
-
-      - name: Build and Push Ubuntu 22.04 Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.ubuntu22.04
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu22.04
-
-  fedora_33:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Login to the container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}                
-          username: ${{ env.REPO_NAME }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build Fedora 33 Container
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.fedora33
-          push: false
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora33
-
-      - name: Build and Push Fedora 33 Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.fedora33
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora33
-
-  fedora_34:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Login to the container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}                
-          username: ${{ env.REPO_NAME }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build Fedora 34 Container
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.fedora34
-          push: false
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora34
-
-      - name: Build and Push Fedora 34 Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.fedora34
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora34
-
-  fedora_35:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Login to the container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}                
-          username: ${{ env.REPO_NAME }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build Fedora 32 Container
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.fedora35
-          push: false
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora35
-
-      - name: Build and Push Fedora 32 Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.fedora35
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora35
+          file: ./Dockerfile.fedora
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora${{ matrix.os }}
+          build-args: OS_VERSION=${{ matrix.os }}
