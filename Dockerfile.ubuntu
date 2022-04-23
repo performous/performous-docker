@@ -7,16 +7,28 @@ FROM docker.io/library/ubuntu:${OS_VERSION}
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG TZ="America/New_York"
 
+## Check if we're running on system providing lower cmake version then we need
+RUN . /etc/os-release && \
+    apt-get update && apt-get install -y wget gpg software-properties-common && \
+    if [ "${VERSION_ID}" = "18.04" ]; then \
+        wget -nc https://apt.kitware.com/keys/kitware-archive-latest.asc && \
+        apt-key add kitware-archive-latest.asc && \
+        echo 'deb https://apt.kitware.com/ubuntu/ bionic main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null && \
+        apt-get update && \
+        apt-get install -y --no-install-recommends nlohmann-json-dev gcc-8 g++-8 ; \
+    else \
+        apt-get install -y --no-install-recommends nlohmann-json3-dev; \
+    fi
+
 ## Install the deps and create the build directory
-RUN apt-get update &&\
-    apt-get install -y --no-install-recommends git cmake build-essential \
+RUN apt-get install -y --no-install-recommends git cmake build-essential \
       gettext help2man libopenblas-dev libfftw3-dev libicu-dev libepoxy-dev \
       libsdl2-dev libfreetype6-dev libpango1.0-dev librsvg2-dev libxml++2.6-dev \
       libavcodec-dev libavformat-dev libswscale-dev libjpeg-dev \
       portaudio19-dev libglm-dev libboost-filesystem-dev \
       libboost-iostreams-dev libboost-locale-dev libboost-system-dev \
       libboost-program-options-dev libssl-dev libcpprest-dev \
-      libportmidi-dev libopencv-dev libaubio-dev nlohmann-json3-dev \
+      libportmidi-dev libopencv-dev libaubio-dev \
       ca-certificates file && \
     apt-get clean && \
     mkdir /root/performous
