@@ -76,6 +76,35 @@ jobs:
           push: ${{ github.ref == 'refs/heads/master' }}
           tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu${{ matrix.os }}
           build-args: OS_VERSION=${{ matrix.os }}
+
+  debian:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - 10 # Buster
+          - 11 # Bullseye
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to the container registry
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}                
+          username: ${{ env.REPO_NAME }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and optional Push Debian ${{ matrix.os }} Container
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.debian
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: ghcr.io/${{ env.REPO_NAME }}/deps:debian${{ matrix.os }}
+          build-args: OS_VERSION=${{ matrix.os }}
+
   fedora:
     runs-on: ubuntu-latest
     strategy:
