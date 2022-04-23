@@ -26,47 +26,12 @@ env:
   REPO_NAME: ${{ github.repository_owner }}
 
 jobs:
-  # Only here for legacy reasons. For newer versions please use the Ubuntu job with the matrix.
-  ubuntu_18-04:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Login to the container registry
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}                
-          username: ${{ env.REPO_NAME }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build Ubuntu 18.04 Container
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.ubuntu18.04
-          load: true
-          tags: ubuntu18.04-test
-
-      - name: Test performous build
-        run: |
-          docker run --rm ubuntu18.04-test ./build_performous.sh -g -R
-        
-      - name: Push Ubuntu 18.04 Container
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile.ubuntu18.04
-          push: true
-          tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04
-
   ubuntu:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         os:
+          - 18.04
           - 20.04
           - 22.04
     steps:
