@@ -16,7 +16,8 @@ RUN apt-get update &&\
       portaudio19-dev libglm-dev libboost-filesystem-dev \
       libboost-iostreams-dev libboost-locale-dev libboost-system-dev \
       libboost-program-options-dev libssl-dev libcpprest-dev \
-      libportmidi-dev libopencv-dev libaubio-dev nlohmann-json3-dev && \
+      libportmidi-dev libopencv-dev libaubio-dev nlohmann-json3-dev \
+      ca-certificates && \
     apt-get clean && \
     mkdir /root/performous
 
