@@ -17,7 +17,7 @@ RUN apt-get update &&\
       libboost-iostreams-dev libboost-locale-dev libboost-system-dev \
       libboost-program-options-dev libssl-dev libcpprest-dev \
       libportmidi-dev libopencv-dev libaubio-dev nlohmann-json3-dev \
-      ca-certificates && \
+      ca-certificates file && \
     apt-get clean && \
     mkdir /root/performous
 
