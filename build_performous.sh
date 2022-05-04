@@ -9,13 +9,11 @@ GIT_REPOSITORY='https://github.com/performous/performous.git'
 usage() {
   set +x
   echo ""
-  echo "Usage: ${0} -a (build with all build systems)"
+  echo "Usage: ${0}"
   echo ""
   echo "Optional Arguments:"
   echo "  -b <Git Branch>: Build the specified git branch, tag, or sha"
   echo "  -p <Pull Request #>: Build the specified Github Pull Request number"
-  echo "  -m : Use Meson to build"
-  echo "  -c : Use Cmake to build"
   echo "  -g : Generate Packages"
   echo "  -r <Repository URL>: Git repository to pull from"
   echo "  -R : Perform a 'Release' Cmake Build (Default is 'RelWithDebInfo')"
@@ -24,19 +22,12 @@ usage() {
 }
 
 ## Set up getopts
-while getopts "ab:p:mcgr:Rh" OPTION; do
+while getopts "b:p:gr:Rh" OPTION; do
   case ${OPTION} in
-    "a")
-      BUILD_MESON=true
-      BUILD_CMAKE=true;;
     "b")
       GIT_BRANCH=${OPTARG};;
     "p")
       PULL_REQUEST=${OPTARG};;
-    "m")
-      BUILD_MESON=true;;
-    "c")
-      BUILD_CMAKE=true;;
     "g")
       GENERATE_PACKAGES=true;;
     "r")
@@ -48,7 +39,7 @@ while getopts "ab:p:mcgr:Rh" OPTION; do
   esac
 done
 
-if ([ -z ${BUILD_MESON} ] && [ -z ${BUILD_CMAKE} ]) || [ ${HELP} ]; then
+if [ ${HELP} ]; then
   usage
   exit 2
 fi
@@ -77,32 +68,19 @@ fi
 case ${ID} in
   'fedora')
     PACKAGE_TYPE='RPM';;
-  'ubuntu')
+  'ubuntu'|'debian')
     PACKAGE_TYPE='DEB';;
   *)
     PACKAGE_TYPE='TAR';;
 esac
 
-## Cmake build
-if [ ${BUILD_CMAKE} ]; then
-  mkdir build.cmake
-  cd build.cmake
-  cmake ${EXTRA_CMAKE_ARGS} -DENABLE_WEBSERVER=ON -DCMAKE_VERBOSE_MAKEFILE=1 -DENABLE_WEBCAM=ON ..
-  CPU_CORES=$(nproc --all)
-  make -j${CPU_CORES}
-  if [ ${GENERATE_PACKAGES} ]; then
-    cpack -G ${PACKAGE_TYPE}
-  fi
-  cd ..
+## Build with cmake 
+mkdir build.cmake
+cd build.cmake
+cmake ${EXTRA_CMAKE_ARGS} -DENABLE_WEBSERVER=ON -DCMAKE_VERBOSE_MAKEFILE=1 -DENABLE_WEBCAM=ON ..
+CPU_CORES=$(nproc --all)
+make -j${CPU_CORES}
+if [ ${GENERATE_PACKAGES} ]; then
+  cpack -G ${PACKAGE_TYPE}
 fi
-
-## Meson build
-if [ ${BUILD_MESON} ]; then
-  ## Pull down the ced stuff from google now that some patches have been merged
-  git clone --depth 1 https://github.com/google/compact_enc_det.git 3rdparty/ced
-  git -C 3rdparty/ced checkout 37529e6
-
-  meson setup build.meson -Dusewebcam=true -Dusemididrum=true -Dusewebserver=true -Dstoponwarning=true
-  meson compile -C build.meson
-  cd ..
-fi
+cd ..
