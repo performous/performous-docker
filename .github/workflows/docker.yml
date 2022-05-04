@@ -40,13 +40,26 @@ jobs:
           registry: ${{ env.REGISTRY }}                
           username: ${{ env.REPO_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
-        
-      - name: Build and optional Push Ubuntu 18.04 Container
+
+      - name: Build Ubuntu 18.04 Container
         uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile.ubuntu18.04
-          push: ${{ github.ref == 'refs/heads/master' }}
+          load: true
+          tags: ubuntu18.04-test
+
+      - name: Test performous build
+        run: |
+          docker run --rm ubuntu18.04-test ./build_performous.sh -g -R
+        
+      - name: Push Ubuntu 18.04 Container
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.ubuntu18.04
+          push: true
           tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu18.04
 
   ubuntu:
@@ -68,12 +81,26 @@ jobs:
           username: ${{ env.REPO_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and optional Push Ubuntu ${{ matrix.os }} Container
+      - name: Build Ubuntu ${{ matrix.os }} Container
         uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile.ubuntu
-          push: ${{ github.ref == 'refs/heads/master' }}
+          load: true
+          tags: ubuntu${{ matrix.os }}-test
+          build-args: OS_VERSION=${{ matrix.os }}
+                
+      - name: Test performous build
+        run: |
+          docker run --rm ubuntu${{ matrix.os }}-test ./build_performous.sh -g -R
+ 
+      - name: Push container
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          push: true
+          file: ./Dockerfile.ubuntu
           tags: ghcr.io/${{ env.REPO_NAME }}/deps:ubuntu${{ matrix.os }}
           build-args: OS_VERSION=${{ matrix.os }}
 
@@ -96,14 +123,28 @@ jobs:
           username: ${{ env.REPO_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and optional Push Debian ${{ matrix.os }} Container
+      - name: Build Debian ${{ matrix.os }} Container
         uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile.debian
-          push: ${{ github.ref == 'refs/heads/master' }}
+          load: true
+          tags: debian${{ matrix.os }}-test
+          build-args: OS_VERSION=${{ matrix.os }}
+                
+      - name: Test performous build
+        run: |
+          docker run --rm debian${{ matrix.os }}-test ./build_performous.sh -g -R
+      - name: Push container
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.debian
+          push: true
           tags: ghcr.io/${{ env.REPO_NAME }}/deps:debian${{ matrix.os }}
           build-args: OS_VERSION=${{ matrix.os }}
+
 
   fedora:
     runs-on: ubuntu-latest
@@ -126,11 +167,25 @@ jobs:
           username: ${{ env.REPO_NAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and optional Push Fedora ${{ matrix.os }} Container
+      - name: Build Fedora ${{ matrix.os }} Container
         uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile.fedora
-          push: ${{ github.ref == 'refs/heads/master' }}
+          load: true
+          tags: fedora${{ matrix.os }}-test
+          build-args: OS_VERSION=${{ matrix.os }}
+
+      - name: Test performous build
+        run: |
+          docker run --rm fedora${{ matrix.os }}-test ./build_performous.sh -g -R
+
+      - name: Push container
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.fedora
+          push: true
           tags: ghcr.io/${{ env.REPO_NAME }}/deps:fedora${{ matrix.os }}
           build-args: OS_VERSION=${{ matrix.os }}
