@@ -151,7 +151,6 @@ jobs:
     strategy:
       matrix:
         os:
-          - 33
           - 34
           - 35
           - 36
