@@ -64,6 +64,12 @@ if [ "${RELEASE_BUILD}" ]; then
   EXTRA_CMAKE_ARGS="${EXTRA_CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release"
 fi
 
+if ([ "${ID}" = "ubuntu" ] && [ "${VERSION_ID}" = "18.04" ]) || ([ "${ID}" = "debian" ] && [ "${VERSION_ID}" = "10" ]); then
+  # Ubuntu 18.04 and Debian Buster has system Aubio 0.4.5, this is not enough
+  # because performous requires a minimum version of 0.4.9.
+  EXTRA_CMAKE_ARGS="${EXTRA_CMAKE_ARGS} -DSELF_BUILT_AUBIO=ALWAYS"
+fi
+
 ## Figure out what type of packages we need to generate
 case ${ID} in
   'fedora')
@@ -75,8 +81,8 @@ case ${ID} in
 esac
 
 ## Build with cmake 
-mkdir build.cmake
-cd build.cmake
+mkdir build
+cd build
 cmake ${EXTRA_CMAKE_ARGS} -DENABLE_WEBSERVER=ON -DCMAKE_VERBOSE_MAKEFILE=1 -DENABLE_WEBCAM=ON ..
 CPU_CORES=$(nproc --all)
 make -j${CPU_CORES}

@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y wget gpg software-properties-common &&\
       portaudio19-dev libglm-dev libboost-filesystem-dev\
       libboost-iostreams-dev libboost-locale-dev libboost-system-dev\
       libboost-program-options-dev libssl-dev libcpprest-dev libportmidi-dev\
-      libopencv-dev libaubio-dev nlohmann-json-dev && \
+      libopencv-dev libaubio-dev nlohmann-json-dev\
+      ca-certificates file &&\
     apt-get clean &&\
     mkdir /root/performous
 
