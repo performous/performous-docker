@@ -81,7 +81,7 @@ case ${ID} in
   'ubuntu'|'debian')
     PACKAGE_TYPE='DEB';;
   *)
-    PACKAGE_TYPE='TAR';;
+    PACKAGE_TYPE='TGZ';;
 esac
 
 ## Build with cmake 

@@ -29,8 +29,6 @@ Usage: ./build_performous.sh -a (build with all build systems)
 Optional Arguments:
   -b <Git Branch>: Build the specified git branch, tag, or sha
   -p <Pull Request #>: Build the specified Github Pull Request number
-  -m : Use Meson to build
-  -c : Use Cmake to build
   -g : Generate Packages
   -r <Repository URL>: Git repository to pull from
   -R : Perform a 'Release' Cmake Build (Default is 'RelWithDebInfo')

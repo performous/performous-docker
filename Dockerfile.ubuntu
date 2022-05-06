@@ -33,9 +33,6 @@ RUN apt-get install -y --no-install-recommends git cmake build-essential \
     apt-get clean && \
     mkdir /root/performous
 
-## Add the meson installation to the path
-ENV PATH=/root/.local/bin:$PATH
-
 ## Copy in the build script to make things easy
 COPY build_performous.sh /root/performous/build_performous.sh
 
