@@ -68,6 +68,10 @@ if ([ "${ID}" = "ubuntu" ] && [ "${VERSION_ID}" = "18.04" ]) || ([ "${ID}" = "de
   # Ubuntu 18.04 and Debian Buster has system Aubio 0.4.5, this is not enough
   # because performous requires a minimum version of 0.4.9.
   EXTRA_CMAKE_ARGS="${EXTRA_CMAKE_ARGS} -DSELF_BUILT_AUBIO=ALWAYS"
+  if ([ "${ID}" = "ubuntu" ]); then
+    export CC=gcc-8
+    export CXX=g++-8
+  fi
 fi
 
 ## Figure out what type of packages we need to generate
