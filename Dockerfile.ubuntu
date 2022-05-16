@@ -29,7 +29,7 @@ RUN apt-get install -y --no-install-recommends git cmake build-essential \
       libboost-iostreams-dev libboost-locale-dev libboost-system-dev \
       libboost-program-options-dev libssl-dev libcpprest-dev \
       libportmidi-dev libopencv-dev libaubio-dev \
-      ca-certificates file && \
+      libfmt-dev ca-certificates file && \
     apt-get clean && \
     mkdir /root/performous
 
