@@ -10,7 +10,7 @@ docker build -t performous-docker-build:ubuntu20.04 -f Dockerfile.ubuntu --build
 
 Currently supported distros are:
 - Ubuntu (18.04, 20.04, 22.04)
-- Fedora (33, 34, 35)
+- Fedora (34, 35, 36)
 - Debian (10, 11)
 
 ## Running the containers
